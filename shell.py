@@ -23,20 +23,21 @@ def main():
         return input()
 
     health = 100
-    rage = 100
+    rage = 0
     damage_low = 10
     damage_high = 25
 
-    print('\nLETS FIIIIIIGGGHHHTTT!!!\n\nHere\'s Your Status: \n')
+    print('\nLETS FIIIIIIGGGHHHTTT!!!\n\n')
     time.sleep(1)
-    values = core.new_gladiator(health, rage, damage_low, damage_high)
-    for key, value in values.items():
-        print('- ', key, '---', value)
-        time.sleep(.1)
-    attacker = values
-    defender = values
-    x = core.attack(attacker, defender)
-    print(x)
+
+    gladiator_1 = core.new_gladiator(health, rage, damage_low, damage_high)
+    gladiator_2 = core.new_gladiator(health, rage, damage_low, damage_high)
+
+    print('Gladiator_1 HP {}, Rage {}, || Gladiator_2 Hp {}, Rage {} '.format(
+        gladiator_1['Health'], gladiator_1['Rage'], gladiator_2['Health'],
+        gladiator_2['Rage']))
+
+    decision = slow_type('\nWhat do you want to do? \nAttack\nHeal\n: ')
 
 
 if __name__ == '__main__':
