@@ -37,16 +37,19 @@ def attack(attacker, defender):
 
     """
 
-    normal = randint(attacker['Damage_low'], attacker['Damage_high'])
-    crit = normal * 2
-    attack = choice([normal, crit])
-    if attack == [normal]:
-        defender['Health'] -= normal
-        attacker['Rage'] += 15
-    elif attack == crit:
+    attack = randint(attacker['Damage_low'], attacker['Damage_high'])
+    rage = attacker['Rage']
+    crit = attack * 2
+    if randint(1, 100) <= rage:
         defender['Health'] -= crit
         attacker['Rage'] = 0
-    return attacker['Rage'], defender['Health']
+        message = 'Critical Hit of {}'.format(crit)
+    else:
+        defender['Health'] -= attack
+        attacker['Rage'] += 15
+        message = 'Normal hit of {}'.format(crit)
+
+    return message
 
 
 def heal(gladiator):
@@ -70,9 +73,6 @@ def is_dead(gladiator):
     -Returns True iff gladiator has no health.
 
     """
-
-    if gladiator['Health'] == 0:
+    if gladiator['Health'] <= 0:
         return True
-
-    else:
-        return False
+    return False
