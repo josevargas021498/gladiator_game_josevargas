@@ -3,7 +3,7 @@ import random
 from random import choice
 
 
-def new_gladiator(health, rage, damage_low, damage_high):
+def new_gladiator(name, health, rage, damage_low, damage_high):
     """ -> (dict)
 
     Returns dictionary with these values:
@@ -16,6 +16,30 @@ def new_gladiator(health, rage, damage_low, damage_high):
     """
 
     gladiator = {
+        'Name': name,
+        'Health': health,
+        'Rage': rage,
+        'Damage_low': damage_low,
+        'Damage_high': damage_high
+    }
+
+    return gladiator
+
+
+def new_gladiator2(name, health, rage, damage_low, damage_high):
+    """ -> (dict)
+
+    Returns dictionary with these values:
+
+    -Health : int between 0 and 100
+    -Rage : int between 0 and 100
+    -Damage_low : int
+    -Damage_high : int
+    
+    """
+
+    gladiator = {
+        'Name': name,
         'Health': health,
         'Rage': rage,
         'Damage_low': damage_low,
@@ -40,6 +64,7 @@ def attack(attacker, defender):
     attack = randint(attacker['Damage_low'], attacker['Damage_high'])
     rage = attacker['Rage']
     crit = attack * 2
+
     if randint(1, 100) <= rage:
         defender['Health'] -= crit
         attacker['Rage'] = 0
@@ -47,7 +72,7 @@ def attack(attacker, defender):
     else:
         defender['Health'] -= attack
         attacker['Rage'] += 15
-        message = 'Normal hit of {}'.format(crit)
+        message = '\nNormal hit of {}'.format(attack)
 
     return message
 
