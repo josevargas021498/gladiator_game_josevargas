@@ -1,103 +1,107 @@
 from random import randint
-import random
 from random import choice
 
 
-def new_gladiator(name, health, rage, damage_low, damage_high):
-    """ -> (dict)
+class Gladiator:
+    """ Gladiator Character"""
 
-    Returns dictionary with these values:
+    def __init__(self, name, health, rage, damage_low, damage_high):
+        """Creates Gladiator named "name", health(100), rage(25 of 200),
+        damage_low(15), damage_high(30), and special_hit().
+        """
 
-    -Health : int between 0 and 100
-    -Rage : int between 0 and 100
-    -Damage_low : int
-    -Damage_high : int
-    
-    """
+        self.name = name
+        self.health = health
+        self.rage = rage
+        self.damage_low = damage_low
+        self.damage_high = damage_high
 
-    gladiator = {
-        'Name': name,
-        'Health': health,
-        'Rage': rage,
-        'Damage_low': damage_low,
-        'Damage_high': damage_high
-    }
+    def __str__(self):
+        """(Gladiator) -> str
 
-    return gladiator
+        Returns str representation of Gladiator.
+        """
 
+        return 'Name: {} --- Health: {} --- Rage: {} --- DL: {} --- DH: {}'.center(
+            130).format(self.name, self.health, self.rage, self.damage_low,
+                        self.damage_high)
 
-def new_gladiator2(name, health, rage, damage_low, damage_high):
-    """ -> (dict)
+    def attack(self, other, move):
+        """(Move) -> NoneType
+        Returns results of the move slap.
+        """
+        if self.rage >= move.requirement:
+            other.health -= move.damage
+            self.rage -= move.requirement
+            self.rage += move.benefits
 
-    Returns dictionary with these values:
+            return '\nSuccessful Hit Of {} Damage!'.format(move.damage)
 
-    -Health : int between 0 and 100
-    -Rage : int between 0 and 100
-    -Damage_low : int
-    -Damage_high : int
-    
-    """
+    def heal(self, move):
+        if self.rage >= move.requirement:
+            self.rage -= move.requirement
+            self.health += move.benefits
+            if self.health >= 100:
+                self.health == 100
+            msg = '\nSuccessful Gain Of {} Health!'.format(move.benefits)
+            return msg
 
-    gladiator = {
-        'Name': name,
-        'Health': health,
-        'Rage': rage,
-        'Damage_low': damage_low,
-        'Damage_high': damage_high
-    }
+    def conservative(self, move):
+        if self.rage >= move.requirement:
+            self.rage += move.benefits
+            msg = '\nSuccessful Gain of {} Rage!'.format(move.benefits)
+            return msg
 
-    return gladiator
+    def is_dead(self):
+        """(Gladiator) -> bool
 
+        Returns True Iff health is <= 0.
+        """
 
-def attack(attacker, defender):
-    """
-
-    -Each attack can be normal or critical,
-    -Crit-chance is the same as attacker's rage(50 rage == 50% crit-chance),
-    -Damage is randint() between attacker's damage_low and damage_high,
-    -Critting doubles damage dealt,
-    -If gladiator crits, rage is reste to 0,
-    -If gladiator hits normal, rage is + 15
-
-    """
-
-    attack = randint(attacker['Damage_low'], attacker['Damage_high'])
-    rage = attacker['Rage']
-    crit = attack * 2
-
-    if randint(1, 100) <= rage:
-        defender['Health'] -= crit
-        attacker['Rage'] = 0
-        message = 'Critical Hit of {}'.format(crit)
-    else:
-        defender['Health'] -= attack
-        attacker['Rage'] += 15
-        message = '\nNormal hit of {}'.format(attack)
-
-    return message
+        if self.health <= 0:
+            return True
 
 
-def heal(gladiator):
-    """
+class Move:
+    """Fighting Move."""
 
-    -Spends 10 rage to heal 5 health,
-    -Cannot heal above max health of 100
+    def __init__(self, name, damage, requirement, benefits):
+        """Creates Move named "name", damage power "damage",
+        and rage requirement "requirement".
+        """
 
-    """
+        self.name = name
+        self.damage = damage
+        self.requirement = requirement
+        self.benefits = benefits
 
-    if gladiator['Rage'] >= 10:
-        gladiator['Rage'] -= 10
-        gladiator['Health'] += 5
+    def __str__(self):
+        """(Move) -> str
+        Returns str representation of Move.
+        """
 
-    return gladiator
+        return '{}-DMG:{}-RQRMT:{}-BNFT:{}'.format(
+            self.name, self.damage, self.requirement, self.benefits)
 
 
-def is_dead(gladiator):
-    """
+# class LightweightGladiator(Gladiator):
+#     def __init__(self, name, health, rage, damage_low, damage_high,
+#                  special_hit):
+#         """Creates Gladiator_1 named name, with rage rage,
+#         damage_low damage_low, and damage_high damage_high,
+#         and special_hit special_hit.
+#         """
 
-    -Returns True iff gladiator has no health.
+#         super().__init__(name, health, rage, damage_low, damage_high)
+#         special_hit = special_hit
 
-    """
-    if gladiator['Health'] <= 0:
-        return True
-    return False
+# class HeavyweightGladiator(Gladiator):
+#     def __init__(self, name, health, rage, damage_low, damage_high,
+#                  special_hit):
+#         """Creates Gladiator_1 named name, with rage rage,
+#         damage_low damage_low, and damage_high damage_high,
+#         and special_hit special_hit.
+#         """
+
+#         super().__init__(name, health, rage, damage_low, damage_high)
+#         special_hit = special_hit
