@@ -34,15 +34,21 @@ class Gladiator:
             other.health -= move.damage
             self.rage -= move.requirement
             self.rage += move.benefits
+            msg = '\nSuccessful Hit Of {} Damage!'.format(move.damage)
+            if move.damage <= 5:
+                msg = '{} knew how to stop the hit!'.format(other.name)
+            elif move.damage == 0:
+                msg = '{} has completely dodged your attack!'.format(
+                    other.name)
 
-            return '\nSuccessful Hit Of {} Damage!'.format(move.damage)
+            return msg
 
     def heal(self, move):
         if self.rage >= move.requirement:
             self.rage -= move.requirement
             self.health += move.benefits
-            if self.health >= 100:
-                self.health == 100
+            if self.health >= 200:
+                self.health = 200
             msg = '\nSuccessful Gain Of {} Health!'.format(move.benefits)
             return msg
 
@@ -80,7 +86,7 @@ class Move:
         Returns str representation of Move.
         """
 
-        return '{}-DMG:{}-RQRMT:{}-BNFT:{}'.format(
+        return '{}--DMG*RANDOM*:{}--RQRMT:{}--BNFT:{}'.format(
             self.name, self.damage, self.requirement, self.benefits)
 
 
