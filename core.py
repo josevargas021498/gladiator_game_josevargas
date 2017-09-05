@@ -67,6 +67,12 @@ class Gladiator:
         if self.health <= 0:
             return True
 
+    def health_cheat_code(self):
+        """(Gladiator) -> result
+
+        Returns c
+        """
+
 
 class Move:
     """Fighting Move."""
